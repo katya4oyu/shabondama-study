@@ -1,0 +1,15 @@
+[tasks.sync]
+description = "Install locked dependencies with a release-date cutoff."
+run = "uv --exclude-newer 2026-05-21T00:00:00Z sync"
+
+[tasks.audit]
+description = "Check Python dependencies for known vulnerabilities."
+run = "uv --exclude-newer 2026-05-21T00:00:00Z run pip-audit"
+
+[tasks.check]
+description = "Run repository checks."
+depends = ["sync", "audit"]
+
+[tasks.detect]
+description = "Run the current still-image bubble detector. Pass args after --."
+run = "uv --exclude-newer 2026-05-21T00:00:00Z run detect-bubbles \"$@\""

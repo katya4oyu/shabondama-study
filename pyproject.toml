@@ -1,0 +1,27 @@
+[project]
+name = "shabondama-study"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+authors = [
+    { name = "katya4oyu", email = "katya4oyu@gmail.com" }
+]
+requires-python = ">=3.12"
+dependencies = [
+    "numpy==2.4.6",
+    "opencv-python==4.13.0.92",
+    "pillow==12.2.0",
+]
+
+[dependency-groups]
+dev = [
+    "pip-audit==2.10.0",
+]
+
+[project.scripts]
+shabondama-study = "shabondama_study:main"
+detect-bubbles = "shabondama_study.detect:main"
+
+[build-system]
+requires = ["uv_build>=0.10.0,<0.11.0"]
+build-backend = "uv_build"
