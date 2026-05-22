@@ -11,12 +11,18 @@ dependencies = [
     "numpy==2.4.6",
     "opencv-python==4.13.0.92",
     "pillow==12.2.0",
+    "scikit-image>=0.26.0",
+    "torch>=2.12.0",
+    "transformers>=5.9.0",
 ]
 
 [dependency-groups]
 dev = [
     "pip-audit==2.10.0",
 ]
+
+[tool.uv]
+exclude-newer = "2026-05-21T00:00:00Z"
 
 [project.scripts]
 shabondama-study = "shabondama_study:main"

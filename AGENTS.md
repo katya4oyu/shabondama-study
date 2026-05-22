@@ -17,6 +17,10 @@ context from scratch.
   from `wiki/index.md` or from another already-linked wiki page in the same change.
 - For experiments, create or update the script first, run or document the run, then
   preserve reusable findings in the wiki so future work can build on them.
+- Base tool and dependency decisions on current evidence: local files, command
+  output, and official documentation. When correcting a mistake, capture the
+  underlying operating principle in the wiki instead of only patching the
+  immediate symptom.
 - Keep shared code at the utility level only. Do not extract algorithms,
   experiment structure, or compatibility layers just because a new script looks
   similar. Only factor out code after the same small operation has been copied

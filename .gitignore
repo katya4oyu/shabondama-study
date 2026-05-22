@@ -4,3 +4,6 @@ __pycache__/
 .DS_Store
 data/outputs/*
 !data/outputs/.gitkeep
+data/images/bubble-detection/*
+!data/images/bubble-detection/ASSETS.md
+!data/images/bubble-detection/manifest.json

@@ -1,133 +1,37 @@
 # shabondama-study
 
-シャボン玉の検出・トラッキングを試すための習作リポジトリ。
+シャボン玉の検出・トラッキングを試すための実験リポジトリです。
 
-ライブラリを作るためのリポジトリではない。さまざまな画像処理アルゴリズム、推論モデル、撮影条件、後処理を試し、結果を比較し、何度でも再現できる状態で残すための作業場。
+汎用ライブラリではありません。小さなスクリプトを書き、試し、結果と知見を `wiki/` に蓄積していきます。
 
-## 目的
-
-- シャボン玉が写っている画像・動画から、泡の検出とトラッキングを安定させる方法を探る。
-- 古典的画像処理、セグメンテーション、物体検出、動画トラッキングを比較する。
-- 成功した条件だけでなく、失敗した条件も記録する。
-- 同じ入力、同じスクリプト、同じ依存関係で、あとから結果を再現できるようにする。
-- アルゴリズムやモデルの違いを、同じデータで比較できるようにする。
-- Apple Silicon Mac、特にメモリ8GB級の低スペック機でも動かせる軽量な手法を優先して探る。
-
-## やること
-
-- フリーで使えるシャボン玉画像・動画を集め、出典とライセンスを記録する。
-- 1つの仮説につき、基本的に1つの使い捨てスクリプトを書く。
-- 検出結果、トラッキング結果、パラメータ、実行コマンドを保存する。
-- うまくいかなかった実験も、理由が分かる範囲で残す。
-- 比較しやすいように、入力データ、出力先、ログ形式をなるべく揃える。
-- 実行時間、メモリ使用量、入力解像度、サブ機で動かせるかをできるだけ記録する。
-
-## やらないこと
-
-- 汎用ライブラリとしてAPIを整えること。
-- 早い段階で抽象化しすぎること。
-- きれいなパッケージ設計を優先すること。
-- 結果だけを残して、入力・コマンド・パラメータを失うこと。
-- 一度の実験結果だけで方式の優劣を決めること。
-
-## 方針
-
-このリポジトリでは、完成度よりも比較可能性と再現性を優先する。
-
-実験環境は Apple Silicon の Mac を前提にする。メイン機は M4 Pro / 48GB の Mac mini だが、研究対象として重視するのはメモリ8GB級の低スペックなサブ機でも動く方法。重いモデルや大きな推論パイプラインも上限確認として試してよいが、採用候補は軽量性、再現性、運用しやすさを満たすものを優先する。
-
-基本は `scripts/` または `src/shabondama_study/` に小さな実験スクリプトを追加する。スクリプトは使い捨てでよい。ただし、あとから同じ結果を再現できるように、入力、出力、主要パラメータ、実行方法は残す。
-
-良い結果が出たら、その方式を壊さずに次の実験を追加する。既存スクリプトを無理に一般化するより、比較対象として残すことを優先する。
-
-## 実験環境
-
-- メイン機: Apple Silicon Mac mini、M4 Pro、メモリ48GB
-- サブ機: Apple Silicon MacBook、メモリ8GB級
-- 優先条件: サブ機でも静止画検出や短い動画トラッキングを現実的な時間とメモリで実行できること
-- 許容条件: メイン機でだけ動く重い手法は、比較用または上限確認として扱う
-
-軽量手法では、まず古典的画像処理、低解像度化、ROI切り出し、フレーム間差分、単純な追跡器を優先する。深層学習モデルを使う場合も、小型モデル、量子化、低解像度入力、CPU/MPSでの実行可否を確認する。
-
-## セキュリティと依存関係
-
-Python環境は `uv` で管理する。タスクランナーは `mise` を使う。
-
-サプライチェーン攻撃への防御として、依存関係の同期には必ず `--exclude-newer` を使う。これは、直近で差し替えられた悪意あるリリースやゼロデイ攻撃の影響を緩和するための最低ライン。
-
-このリポジトリでは、直接依存は原則として安全な最新から始め、バージョンを固定する。ロックファイル `uv.lock` もコミットする。
+## Quick Start
 
 ```bash
 mise run sync
 ```
 
-既知脆弱性の確認には `pip-audit` を使う。
-
-```bash
-mise run audit
-```
-
-まとめて確認する場合:
-
-```bash
-mise run check
-```
-
-## ディレクトリ
-
-- `data/images/`: 入力画像
-- `data/outputs/`: 検出結果やデバッグ画像
-- `src/shabondama_study/`: Pythonコード
-- `scripts/`: 単発の実験スクリプト置き場
-- `README.md`: 方針と運用ルール
-
-## 最初の実験
-
-現在の初期実装は、グレースケール化、ぼかし、Canny、Hough circle を使った簡易検出。
-
-フリーで使える画像を `data/images/` に置いて実行する。
-
-```bash
-uv --exclude-newer 2026-05-21T00:00:00Z run detect-bubbles data/images/sample.jpg -o data/outputs/sample-detected.png
-```
-
-半径レンジを変える場合:
-
-```bash
-uv --exclude-newer 2026-05-21T00:00:00Z run detect-bubbles data/images/sample.jpg --min-radius 12 --max-radius 180
-```
-
-`mise` から実行する場合:
+静止画の簡易検出:
 
 ```bash
 mise run detect -- data/images/sample.jpg
 ```
 
-## 記録すること
+直接 `uv` で実行する場合:
 
-各実験では最低限これを残す。
+```bash
+uv run --locked detect-bubbles data/images/sample.jpg -o data/outputs/sample-detected.png
+```
 
-- 入力データのパス、出典、ライセンス
-- 実行コマンド
-- 依存関係の状態
-- 主要パラメータ
-- 実行したマシン、入力解像度、処理時間、可能ならメモリ使用量
-- 出力画像・動画・ログ
-- うまくいった点
-- 失敗した点
-- 次に試すこと
+## Project Notes
 
-## 比較したい方式
+- 目的と非目標: [wiki/pages/project-purpose.md](wiki/pages/project-purpose.md)
+- `uv` / `mise` の使い方: [wiki/pages/toolchain-and-task-workflow.md](wiki/pages/toolchain-and-task-workflow.md)
+- 実験ワークフロー: [wiki/pages/experiment-knowledge-workflow.md](wiki/pages/experiment-knowledge-workflow.md)
+- wiki の入口: [wiki/index.md](wiki/index.md)
 
-- 輪郭ベース
-- ハイライトベース
-- Hough circle / ellipse fitting
-- 背景差分
-- Optical flow
-- Centroid + Kalman filter
-- 小型YOLO / YOLO-seg
-- ByteTrack / BoT-SORT
-- SAM 2
-- 透明物体向けセグメンテーション
+## Layout
 
-まずは軽量な古典的手法と単純なトラッキングを優先する。小型YOLO、ByteTrack、SAM 2 などは精度の比較対象として扱い、メモリ8GB級のサブ機で現実的に動くかを必ず確認する。
+- `src/shabondama_study/`: Python code
+- `data/images/`: input images
+- `data/outputs/`: generated outputs
+- `wiki/`: experiment notes and reusable project knowledge
