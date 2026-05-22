@@ -12,8 +12,20 @@ belongs in the wiki, durable docs, or issues.
 Read [Wiki maintenance feedback loop](./pages/wiki-maintenance-feedback-loop.md) when a prior page was useful,
 misleading, stale, or hard to find.
 
+Read [Evidence-based agent workflow](./pages/evidence-based-agent-workflow.md) when a task
+depends on tool behavior, current documentation, dependency management, or a
+correction that should change future operating habits.
+
 Read [Experiment knowledge workflow](./pages/experiment-knowledge-workflow.md) when adding
 or reviewing experiment scripts, results, failures, or reusable lessons.
+
+Read [Bubble detection test assets](./pages/bubble-detection-test-assets.md) when choosing
+licensed still images for bubble-detection experiments or checking what visual
+conditions the current asset set covers.
+
+Read [Realtime pipeline and Rust](./pages/realtime-pipeline-and-rust.md) when
+designing a real-time smoke bubble detector, estimating frame latency, or
+planning a Rust migration from the Python prototype.
 
 ## When Starting Repository Work
 
