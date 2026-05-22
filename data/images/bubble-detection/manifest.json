@@ -1,0 +1,234 @@
+[
+  {
+    "file": "soap_bubbles_supermacro_pd.jpg",
+    "source_page": "https://commons.wikimedia.org/wiki/File:Soap_bubbles.JPG",
+    "source_file": "https://commons.wikimedia.org/wiki/Special:FilePath/Soap_bubbles.JPG",
+    "title": "Soap bubbles.JPG",
+    "author": "HTO",
+    "license": "Public Domain",
+    "license_url": "https://commons.wikimedia.org/wiki/File:Soap_bubbles.JPG",
+    "acquired_at": "2026-05-21",
+    "reviewed_at": "2026-05-21",
+    "review_status": "accepted",
+    "detection_scope": "out_of_scope",
+    "detection_scope_reason": "Soap film cell cross-section under macro photography. Not a floating soap bubble. Detection metrics on this image do not reflect real-world シャボン玉 performance.",
+    "visual_review": "Downloaded image opened and checked: dense connected soap-bubble cells are visible; useful as a close-up stress case.",
+    "dimensions": "1039x884",
+    "conditions": {
+      "bubble_count": "many",
+      "bubble_scale": "macro/small",
+      "human_presence": "none",
+      "scene": "close-up",
+      "background_brightness": "mixed/dark",
+      "background_complexity": "simple close-up",
+      "appearance": [
+        "dense connected cells",
+        "transparent rims",
+        "high contrast"
+      ]
+    }
+  },
+  {
+    "file": "master_of_soapbubbles_cc0.jpg",
+    "source_page": "https://commons.wikimedia.org/wiki/File:Master_of_soapbubbles.jpg",
+    "source_file": "https://commons.wikimedia.org/wiki/Special:FilePath/Master_of_soapbubbles.jpg",
+    "title": "Master of soapbubbles.jpg",
+    "author": "Vsatinet",
+    "license": "CC0 1.0",
+    "license_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "acquired_at": "2026-05-21",
+    "reviewed_at": "2026-05-21",
+    "review_status": "accepted",
+    "visual_review": "Downloaded image opened and checked: many real soap bubbles are visible over a busy outdoor street-performance scene with people.",
+    "dimensions": "2760x2070",
+    "conditions": {
+      "bubble_count": "many",
+      "bubble_scale": "mixed/large",
+      "human_presence": "visible adult performer and crowd",
+      "scene": "outdoor street",
+      "background_brightness": "mixed",
+      "background_complexity": "cluttered",
+      "appearance": [
+        "many transparent bubbles",
+        "specular highlights",
+        "urban background"
+      ]
+    },
+    "detection_scope": "primary",
+    "detection_scope_reason": "Typical floating soap bubble scene. Primary evaluation target."
+  },
+  {
+    "file": "irregular_bubble_cc0.jpg",
+    "source_page": "https://commons.wikimedia.org/wiki/File:Irregular_bubble.jpg",
+    "source_file": "https://commons.wikimedia.org/wiki/Special:FilePath/Irregular_bubble.jpg",
+    "title": "Irregular bubble.jpg",
+    "author": "Unknown author",
+    "license": "CC0 1.0",
+    "license_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "acquired_at": "2026-05-21",
+    "reviewed_at": "2026-05-21",
+    "review_status": "accepted",
+    "detection_scope": "edge_case",
+    "detection_scope_reason": "Highly irregular non-circular bubble. Tests detector robustness but not representative of typical round floating bubbles.",
+    "visual_review": "Downloaded image opened and checked: one large non-circular bubble is clearly isolated against a textured outdoor background.",
+    "dimensions": "1024x682",
+    "conditions": {
+      "bubble_count": "single/few",
+      "bubble_scale": "medium/large",
+      "human_presence": "none",
+      "scene": "outdoor garden/wall",
+      "background_brightness": "bright",
+      "background_complexity": "moderate",
+      "appearance": [
+        "irregular shape",
+        "non-circular contour",
+        "transparent film"
+      ]
+    }
+  },
+  {
+    "file": "soap_bubble_closeup_cc_by_2_0.jpg",
+    "source_page": "https://commons.wikimedia.org/wiki/File:Soap_bubble_(3870491926).jpg",
+    "source_file": "https://commons.wikimedia.org/wiki/Special:FilePath/Soap_bubble_(3870491926).jpg",
+    "title": "Soap bubble (3870491926).jpg",
+    "author": "Max Stotsky",
+    "license": "CC BY 2.0",
+    "license_url": "https://creativecommons.org/licenses/by/2.0/",
+    "acquired_at": "2026-05-21",
+    "reviewed_at": "2026-05-21",
+    "review_status": "accepted",
+    "visual_review": "Downloaded image opened and checked: one large circular bubble with a clean visible rim on a blurred outdoor background.",
+    "dimensions": "2217x1476",
+    "conditions": {
+      "bubble_count": "single",
+      "bubble_scale": "large",
+      "human_presence": "none",
+      "scene": "outdoor",
+      "background_brightness": "mixed",
+      "background_complexity": "blurred",
+      "appearance": [
+        "single circular bubble",
+        "thin rim",
+        "shallow depth of field"
+      ]
+    },
+    "detection_scope": "primary",
+    "detection_scope_reason": "Typical floating soap bubble scene. Primary evaluation target."
+  },
+  {
+    "file": "soap_bubbles_algerian_grassland_cc_by_sa_4_0.jpg",
+    "source_page": "https://commons.wikimedia.org/wiki/File:Soap_bubbles_in_Algerian_grassland.jpg",
+    "source_file": "https://commons.wikimedia.org/wiki/Special:FilePath/Soap_bubbles_in_Algerian_grassland.jpg",
+    "title": "Soap bubbles in Algerian grassland.jpg",
+    "author": "Moh tch",
+    "license": "CC BY-SA 4.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/4.0/",
+    "acquired_at": "2026-05-21",
+    "reviewed_at": "2026-05-21",
+    "review_status": "accepted",
+    "visual_review": "Downloaded image opened and checked: a clothed child is blowing a small chain of bubbles in strong warm backlight over grass.",
+    "dimensions": "4000x2800",
+    "conditions": {
+      "bubble_count": "few",
+      "bubble_scale": "small/medium",
+      "human_presence": "clothed child",
+      "scene": "outdoor grass",
+      "background_brightness": "bright/backlit",
+      "background_complexity": "blurred vegetation",
+      "appearance": [
+        "small bubbles",
+        "strong backlight",
+        "warm color cast"
+      ]
+    },
+    "detection_scope": "primary",
+    "detection_scope_reason": "Typical floating soap bubble scene. Primary evaluation target."
+  },
+  {
+    "file": "giant_bubble_cc_by_sa_3_0.jpg",
+    "source_page": "https://commons.wikimedia.org/wiki/File:Giant.bubble.jpg",
+    "source_file": "https://commons.wikimedia.org/wiki/Special:FilePath/Giant.bubble.jpg",
+    "title": "Giant.bubble.jpg",
+    "author": "Kazbeki",
+    "license": "CC BY-SA 3.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/3.0/",
+    "acquired_at": "2026-05-21",
+    "reviewed_at": "2026-05-21",
+    "review_status": "accepted",
+    "detection_scope": "edge_case",
+    "detection_scope_reason": "Human-sized performance bubble. Far outside the typical size range of floating soap bubbles. Useful as a stress test but not a primary evaluation target.",
+    "visual_review": "Downloaded image opened and checked: one giant irregular bubble is visible beside an adult performer in a green outdoor scene.",
+    "dimensions": "2178x1254",
+    "conditions": {
+      "bubble_count": "single",
+      "bubble_scale": "giant",
+      "human_presence": "adult performer",
+      "scene": "outdoor vegetation",
+      "background_brightness": "mixed",
+      "background_complexity": "cluttered vegetation",
+      "appearance": [
+        "giant bubble",
+        "irregular contour",
+        "large specular highlight"
+      ]
+    }
+  },
+  {
+    "file": "soap_bubble_grapevine_cc_by_sa_3_0.jpg",
+    "source_page": "https://commons.wikimedia.org/wiki/File:SoapBubbleLargeWithGrapevineBG.jpg",
+    "source_file": "https://commons.wikimedia.org/wiki/Special:FilePath/SoapBubbleLargeWithGrapevineBG.jpg",
+    "title": "SoapBubbleLargeWithGrapevineBG.jpg",
+    "author": "Dr. Bader Imre",
+    "license": "CC BY-SA 3.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/3.0/",
+    "acquired_at": "2026-05-21",
+    "reviewed_at": "2026-05-21",
+    "review_status": "accepted",
+    "visual_review": "Downloaded image opened and checked: one round bubble is visible against leafy grapevine/garden clutter.",
+    "dimensions": "1570x1079",
+    "conditions": {
+      "bubble_count": "single",
+      "bubble_scale": "large",
+      "human_presence": "none",
+      "scene": "garden",
+      "background_brightness": "mixed",
+      "background_complexity": "cluttered vegetation",
+      "appearance": [
+        "round bubble",
+        "iridescent rim",
+        "green clutter"
+      ]
+    },
+    "detection_scope": "primary",
+    "detection_scope_reason": "Typical floating soap bubble scene. Primary evaluation target."
+  },
+  {
+    "file": "girl_with_soap_bubble_machine_cc_by_2_0.jpg",
+    "source_page": "https://commons.wikimedia.org/wiki/File:Girl_with_soap_bubble_machine.jpg",
+    "source_file": "https://commons.wikimedia.org/wiki/Special:FilePath/Girl_with_soap_bubble_machine.jpg",
+    "title": "Girl with soap bubble machine.jpg",
+    "author": "Lunna Campos",
+    "license": "CC BY 2.0",
+    "license_url": "https://creativecommons.org/licenses/by/2.0/",
+    "acquired_at": "2026-05-21",
+    "reviewed_at": "2026-05-21",
+    "review_status": "accepted",
+    "visual_review": "Downloaded image opened and checked: a clothed child holds a bubble machine, with many small bubbles visible against a dark/blurred outdoor background.",
+    "dimensions": "3264x4928",
+    "conditions": {
+      "bubble_count": "many",
+      "bubble_scale": "small",
+      "human_presence": "clothed child",
+      "scene": "outdoor",
+      "background_brightness": "dark/mixed",
+      "background_complexity": "blurred urban/outdoor background",
+      "appearance": [
+        "many small bubbles",
+        "bubble machine",
+        "shallow depth of field"
+      ]
+    },
+    "detection_scope": "primary",
+    "detection_scope_reason": "Typical floating soap bubble scene. Primary evaluation target."
+  }
+]
