@@ -1,3 +1,4 @@
+mod detect;
 mod params;
 
 use clap::Parser;
