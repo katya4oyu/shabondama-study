@@ -1,0 +1,4 @@
+# Build environment for macOS with Homebrew LLVM
+# Required for opencv-rust and shiguredo_video_device (uses bindgen with runtime clang loading)
+[env]
+LIBCLANG_PATH = "/opt/homebrew/opt/llvm/lib"

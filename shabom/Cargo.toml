@@ -1,0 +1,25 @@
+[package]
+name = "shabom"
+version = "0.1.0"
+edition = "2021"
+
+[[bin]]
+name = "shabom"
+path = "src/main.rs"
+
+[dependencies]
+anyhow = "1"
+clap = { version = "4", features = ["derive"] }
+crossterm = "0.28"
+image = "0.25"
+opencv = { version = "0.98", features = [
+    "videoio", "imgproc", "video", "features2d", "clang-runtime"
+] }
+ratatui = "0.29"
+ratatui-image = { version = "11", features = ["crossterm"] }
+screencapturekit = "6"
+shiguredo_video_device = "2026.1"
+tokio = { version = "1", features = ["rt-multi-thread", "sync", "macros"] }
+
+[dev-dependencies]
+approx = "0.5"
