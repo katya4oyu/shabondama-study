@@ -1,5 +1,6 @@
 mod detect;
 mod params;
+mod track;
 
 use clap::Parser;
 
