@@ -19,7 +19,7 @@ pub struct AppState {
     pub source: SourceKind,
     pub params: DetectorParams,
     pub tracks: Vec<BubbleTrack>,
-    pub latest_frame: Option<DynamicImage>,
+    pub latest_frame: Option<Arc<DynamicImage>>,
     pub fps: f64,
     pub frame_ms: f64,
     pub raw_count: usize,

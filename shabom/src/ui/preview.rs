@@ -5,7 +5,7 @@ use crate::app::AppState;
 pub fn render_preview(
     frame: &mut Frame,
     area: Rect,
-    _state: &AppState,
+    state: &AppState,
     image_state: &mut StatefulProtocol,
 ) {
     use ratatui::widgets::Block;
@@ -15,7 +15,8 @@ pub fn render_preview(
     let inner = block.inner(area);
     frame.render_widget(block, area);
 
-    if _state.latest_frame.is_some() {
+    // TODO(Task 12): image_state must be updated each frame via picker.new_resize_protocol()
+    if state.latest_frame.is_some() {
         let image_widget: StatefulImage<StatefulProtocol> = StatefulImage::new();
         frame.render_stateful_widget(image_widget, inner, image_state);
     }
