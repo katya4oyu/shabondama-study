@@ -15,7 +15,7 @@ image = "0.25"
 opencv = { version = "0.98", features = [
     "videoio", "imgproc", "video", "features2d", "clang-runtime"
 ] }
-ratatui = "0.29"
+ratatui = "0.30"
 ratatui-image = { version = "11", features = ["crossterm"] }
 screencapturekit = "6"
 shiguredo_video_device = "2026.1"

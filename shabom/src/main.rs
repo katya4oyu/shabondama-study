@@ -3,6 +3,7 @@ mod capture;
 mod detect;
 mod params;
 mod track;
+mod ui;
 
 use clap::Parser;
 use params::{BubbleMode, SourceKind, Environment};
