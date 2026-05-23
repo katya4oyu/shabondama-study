@@ -76,3 +76,82 @@ mod tests {
         assert!(result.is_empty());
     }
 }
+
+use crate::{
+    params::{BubbleMode, DetectorParams, SmokeDetector},
+    track::{BubbleTrack, Tracker},
+};
+use opencv::{
+    core::{Mat, Point, Scalar},
+    imgproc,
+    prelude::*,
+};
+
+pub use smoke::SmokePipeline;
+pub use transparent::TransparentPipeline;
+
+pub struct DetectResult {
+    pub tracks: Vec<BubbleTrack>,
+    pub annotated: Mat,
+    pub raw_count: usize,
+}
+
+pub struct Detector {
+    smoke: SmokePipeline,
+    transparent: TransparentPipeline,
+    pub tracker: Tracker,
+}
+
+impl Detector {
+    pub fn new(params: &DetectorParams) -> anyhow::Result<Self> {
+        Ok(Self {
+            smoke: SmokePipeline::new(params)?,
+            transparent: TransparentPipeline::new(),
+            tracker: Tracker::new(),
+        })
+    }
+
+    pub fn process(&mut self, frame: &Mat, params: &DetectorParams, mode: BubbleMode) -> anyhow::Result<DetectResult> {
+        let detections = match mode {
+            BubbleMode::Smoke => match params.smoke_detector {
+                SmokeDetector::Bright => self.smoke.detect_bright(frame, params)?,
+                SmokeDetector::Hough  => self.smoke.detect_hough(frame, params)?,
+                SmokeDetector::Motion => self.smoke.detect_motion(frame, params)?,
+            },
+            BubbleMode::Transparent => self.transparent.detect(frame, params)?,
+        };
+
+        let raw_count = detections.len();
+        let tracks = self.tracker.update(&detections);
+
+        // Draw green circle + ID label on annotated frame
+        let mut annotated = Mat::try_clone(frame)?;
+        for track in &tracks {
+            let center = Point::new(track.x as i32, track.y as i32);
+            let radius = track.r as i32;
+            imgproc::circle(
+                &mut annotated,
+                center,
+                radius,
+                Scalar::new(0.0, 255.0, 0.0, 0.0),
+                2,
+                imgproc::LINE_AA,
+                0,
+            )?;
+            let label = format!("#{}", track.id);
+            imgproc::put_text(
+                &mut annotated,
+                &label,
+                Point::new(center.x - radius, center.y - radius - 5),
+                imgproc::FONT_HERSHEY_SIMPLEX,
+                0.6,
+                Scalar::new(0.0, 255.0, 0.0, 0.0),
+                1,
+                imgproc::LINE_AA,
+                false,
+            )?;
+        }
+
+        Ok(DetectResult { tracks, annotated, raw_count })
+    }
+}
