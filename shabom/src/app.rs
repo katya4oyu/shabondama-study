@@ -12,6 +12,9 @@ use crate::{
     track::BubbleTrack,
 };
 
+#[derive(Clone, Debug, PartialEq)]
+pub enum FocusPanel { Preview, Controls }
+
 #[derive(Clone, Debug)]
 pub struct AppState {
     pub mode: BubbleMode,
@@ -23,6 +26,8 @@ pub struct AppState {
     pub fps: f64,
     pub frame_ms: f64,
     pub raw_count: usize,
+    pub focus: FocusPanel,
+    pub selected_param: usize,
 }
 
 impl AppState {
@@ -37,6 +42,8 @@ impl AppState {
             fps: 0.0,
             frame_ms: 0.0,
             raw_count: 0,
+            focus: FocusPanel::Preview,
+            selected_param: 0,
         }
     }
 
@@ -44,6 +51,55 @@ impl AppState {
         let current_detector = self.params.smoke_detector;
         self.params = DetectorParams::preset(self.mode, self.env);
         self.params.smoke_detector = current_detector;
+    }
+
+    pub fn param_count(&self) -> usize {
+        match self.mode {
+            BubbleMode::Smoke => match self.params.smoke_detector {
+                SmokeDetector::Bright  => 4,
+                SmokeDetector::Hough   => 5,
+                SmokeDetector::Motion  => 4,
+            },
+            BubbleMode::Transparent => 5,
+        }
+    }
+
+    pub fn adjust_selected_param(&mut self, delta: i32) {
+        let p = &mut self.params;
+        match self.mode {
+            BubbleMode::Smoke => match p.smoke_detector {
+                SmokeDetector::Bright => match self.selected_param {
+                    0 => p.min_value = (p.min_value + delta).clamp(0, 255),
+                    1 => p.max_saturation = (p.max_saturation + delta).clamp(0, 255),
+                    2 => p.nms_threshold = (p.nms_threshold + delta as f32 * 0.05).clamp(0.1, 1.0),
+                    3 => p.min_area = (p.min_area + delta as f32 * 50.0).max(0.0),
+                    _ => {}
+                },
+                SmokeDetector::Hough => match self.selected_param {
+                    0 => p.hough_param2 = (p.hough_param2 + delta).clamp(1, 200),
+                    1 => p.min_mean_value = (p.min_mean_value + delta as f64).clamp(0.0, 255.0),
+                    2 => p.min_local_contrast = (p.min_local_contrast + delta as f64).clamp(0.0, 100.0),
+                    3 => p.min_highlight_value = (p.min_highlight_value + delta).clamp(0, 255),
+                    4 => p.nms_threshold = (p.nms_threshold + delta as f32 * 0.05).clamp(0.1, 1.0),
+                    _ => {}
+                },
+                SmokeDetector::Motion => match self.selected_param {
+                    0 => p.mog2_history = (p.mog2_history + delta * 10).clamp(10, 1000),
+                    1 => p.mog2_var_threshold = (p.mog2_var_threshold + delta as f64).clamp(1.0, 100.0),
+                    2 => p.min_area = (p.min_area + delta as f32 * 50.0).max(0.0),
+                    3 => p.nms_threshold = (p.nms_threshold + delta as f32 * 0.05).clamp(0.1, 1.0),
+                    _ => {}
+                },
+            },
+            BubbleMode::Transparent => match self.selected_param {
+                0 => p.transparent_param2 = (p.transparent_param2 + delta).clamp(1, 200),
+                1 => p.hue_grad_threshold = (p.hue_grad_threshold + delta).clamp(1, 50),
+                2 => p.pastel_s_min = (p.pastel_s_min + delta).clamp(0, p.pastel_s_max - 1),
+                3 => p.pastel_v_min = (p.pastel_v_min + delta).clamp(0, 255),
+                4 => p.transparent_nms = (p.transparent_nms + delta as f32 * 0.05).clamp(0.1, 1.0),
+                _ => {}
+            },
+        }
     }
 }
 

@@ -18,7 +18,7 @@ use ratatui::{backend::CrosstermBackend, Terminal};
 use ratatui_image::picker::Picker;
 
 use crate::{
-    app::{mat_to_dynamic_image, AppState},
+    app::{mat_to_dynamic_image, AppState, FocusPanel},
     params::{BubbleMode, SourceKind, Environment, SmokeDetector},
 };
 
@@ -143,7 +143,26 @@ fn main() -> anyhow::Result<()> {
                             SourceKind::Uvc => SourceKind::Screen,
                             SourceKind::Screen => SourceKind::Uvc,
                         };
-                        // TODO(Task 13): source switch requires thread restart
+                        // TODO: source switch requires capture thread restart
+                    }
+                    KeyCode::Tab => {
+                        s.focus = match s.focus {
+                            FocusPanel::Preview  => FocusPanel::Controls,
+                            FocusPanel::Controls => FocusPanel::Preview,
+                        };
+                    }
+                    KeyCode::Up if s.focus == FocusPanel::Controls => {
+                        if s.selected_param > 0 { s.selected_param -= 1; }
+                    }
+                    KeyCode::Down if s.focus == FocusPanel::Controls => {
+                        let max = s.param_count().saturating_sub(1);
+                        if s.selected_param < max { s.selected_param += 1; }
+                    }
+                    KeyCode::Left | KeyCode::Char('h') if s.focus == FocusPanel::Controls => {
+                        s.adjust_selected_param(-1);
+                    }
+                    KeyCode::Right | KeyCode::Char('l') if s.focus == FocusPanel::Controls => {
+                        s.adjust_selected_param(1);
                     }
                     _ => {}
                 }

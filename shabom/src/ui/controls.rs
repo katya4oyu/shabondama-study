@@ -1,9 +1,10 @@
 use ratatui::{
     layout::{Constraint, Direction, Layout, Rect},
+    style::{Color, Modifier, Style},
     widgets::{Block, List, ListItem, Paragraph},
     Frame,
 };
-use crate::{app::AppState, params::{BubbleMode, Environment, SourceKind, SmokeDetector}};
+use crate::{app::{AppState, FocusPanel}, params::{BubbleMode, Environment, SourceKind, SmokeDetector}};
 
 pub fn render_controls(frame: &mut Frame, area: Rect, state: &AppState) {
     let block = Block::bordered().title(" CONTROL ");
@@ -91,8 +92,15 @@ fn render_params_section(frame: &mut Frame, area: Rect, state: &AppState) {
         (BubbleMode::Transparent, _) => "PARAMS (transparent)",
     };
 
-    let list_items: Vec<ListItem> = items.iter()
-        .map(|line| ListItem::new(line.as_str()))
+    let list_items: Vec<ListItem> = items.iter().enumerate()
+        .map(|(i, line)| {
+            if i == state.selected_param && state.focus == FocusPanel::Controls {
+                ListItem::new(line.as_str())
+                    .style(Style::default().bg(Color::DarkGray).add_modifier(Modifier::BOLD))
+            } else {
+                ListItem::new(line.as_str())
+            }
+        })
         .collect();
 
     let list = List::new(list_items).block(Block::bordered().title(format!("◆ {}", title)));
