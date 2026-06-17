@@ -118,4 +118,55 @@
 - **EXP-08 DoH**: 棄却。SimpleBlobDetector より遅く重く、優位性なし。
 - **EXP-09 Depth Anything**: algerian 29×→25×、grapevine 164×→124× と微改善のみ。メモリ ~1GB。根本原因: 透明な泡に背景の深度が割り当てられるため深度マスクで泡ごと消える。
 - **Phase 2 の結論**: 背景分離の困難さは検出器ではなく「透明物体」という対象の性質に由来。静止画の単一フレームでは構造的に限界がある。
+
+## [2026-05-23] ingest — iPhone 実写スモーク泡トラッキング
+
+- `data/inputs/20260523_tabaco_iphone` の HEIC 1 枚と MOV 3 本を処理。
+- `experiments/exp_11_video_tracking.py` の `motion` / `bright` / `hough` をプレビュー比較し、今回の素材では `bright` を本実行に採用。
+- オーバーレイ動画、代表フレーム、contact sheet、レポートを `data/outputs/20260523-tabaco-iphone-bright-tracking/` に保存。
+- `bright` は定性的な追跡確認には有効だが、明るい煙片・反射・白背景も拾うため数値は真の泡数ではない、という注意を [リアルタイム検出パイプラインと Rust 化](./pages/realtime-pipeline-and-rust.md) に追記。
+
+## [2026-05-24] ingest — EXP-11 hybrid パイプライン試作と比較
+
+- `experiments/exp_11_video_tracking.py` に `--detector hybrid` を追加。
+- bright/blob 候補、bright ROI 内 Hough、候補 score、score 優先 NMS、MOG2 motion support を統合。
+- `tests/test_exp_11_video_tracking.py` を追加し、score NMS と bright-overlap rejection を検証。
+- `data/outputs/20260523-tabaco-iphone-hybrid-comparison-report.md` に strict bright と strict hybrid の比較を保存。
+- 結論: 初期 hybrid は統合点としては有用だが、今回の iPhone 屋外素材では毎フレーム Hough が遅く候補数も増えるため、Hough は rescue pass として限定実行する方針にする。
 - 知見を [代替検出器・前景分離 Phase 2](./pages/alternative-detectors-phase-2.md) に記録。
+
+## [2026-05-23] experiment — EXP-11 RGB 動画トラッキング初期検証
+
+- ユーザー提供 mp4 3 本（Downloads 配下）を使い、`experiments/exp_11_video_tracking.py` を追加。
+- MOG2 背景差分 → 輪郭フィルタ → 最近傍トラック割当で、注釈動画と `summary.json` を `data/outputs/exp-11-video-tracking/` に出力。
+- フル尺では 7.5〜17.0ms/frame。Python + OpenCV の軽量処理でも 30fps 目標内。
+- `62455` は mean 42.48 detections/frame, max 129 active tracks で過検出傾向。次は注釈動画を目視して ROI と閾値を調整する。
+- 結果を [リアルタイム検出パイプラインと Rust 化](./pages/realtime-pipeline-and-rust.md) に追記。
+
+## [2026-05-23] experiment — EXP-11 bright モード追加
+
+- スモーク入り泡では背景差分より白い円の直接検出が有利ではないか、という指摘を受けて `--detector bright` を追加。
+- bright は HSV の低彩度・高輝度マスクを輪郭フィルタと既存トラッカーへ流す。比較用マスクサンプルを `data/outputs/exp-11-video-tracking-bright/mask-samples/` に出力。
+- フル尺結果: `9695192` は mean 2.10 detections/frame, max 11 active tracks まで減り、背景差分より明確に良い。`62455` は候補数がほぼ同じ、`326932` は候補数増・トラック数減。
+- 背景差分は泡が割れた後の煙や背景の動きを拾うリスクがあるため、スモーク泡の主線は bright 検出を優先し、motion は補助特徴として扱う。
+
+## [2026-05-23] experiment — EXP-11 hough モード追加
+
+- `9695192` の大きな白球が bright contour で拾えない失敗を確認。二値化後に球全体が一つの塊にならず、明るい縁・煙・床側の白領域へ分かれることが原因。
+- `--detector hough` を追加し、グレースケールの HoughCircles で円輪郭を直接検出する経路を作った。
+- 該当フレームでは中心およそ `(212, 351)`, 半径 `70` の円として大玉を検出。`9695192` フル尺では mean 1.87 detections/frame, max 8 active tracks, 6.8ms/frame。
+- 方針を更新: スモーク泡の主検出は `hough` または `bright + hough`、背景差分は補助特徴。
+
+## [2026-05-23] experiment — EXP-11 Hough 煙誤検知フィルタ
+
+- Hough が煙の丸い濃淡や床側の白い塊へ円を当てる誤検知を確認。
+- 本物の白球は円内平均輝度 `182.9`、高輝度画素率 `0.77`。煙由来の大円は平均 `136〜143`、高輝度画素率 `0.04〜0.16` で分離可能だった。
+- `--min-inner-mean-value`, `--min-bright-fraction`, `--nms-threshold` を追加。内側輝度・高輝度画素率で煙を落とし、NMS で同一玉の多重円を統合する。
+- `9695192` に `--detector hough --min-inner-mean-value 165 --min-bright-fraction 0.25` を適用し、mean 0.29 detections/frame, max 2 active tracks, 7.0ms/frame。
+
+## [2026-05-23] experiment — EXP-11 暗めの玉を拾う局所特徴
+
+- 絶対輝度フィルタは煙を落とせるが、frame 451 付近の灰色っぽい玉を漏らした。
+- `--min-local-contrast` と `--min-highlight-value` を追加。円内側が外側リングより明るく、かつ円内 99 パーセンタイルに玉の縁ハイライトがあることを要求する。
+- `--detector hough --hough-param2 16 --min-mean-value 70 --min-local-contrast 25 --min-highlight-value 195 --nms-threshold 0.85` で、frame 231 は 1 件、frame 451 は 4 件検出。
+- フル尺結果は mean 1.11 detections/frame, max 4 active tracks, 9.7ms/frame。
