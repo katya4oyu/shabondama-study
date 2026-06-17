@@ -2,6 +2,7 @@
 __pycache__/
 *.py[cod]
 .DS_Store
+data/inputs/*
 data/outputs/*
 !data/outputs/.gitkeep
 data/images/bubble-detection/*
