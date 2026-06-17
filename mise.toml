@@ -13,3 +13,7 @@ depends = ["sync", "audit"]
 [tasks.detect]
 description = "Run the current still-image bubble detector. Pass args after --."
 run = "uv run --locked detect-bubbles \"$@\""
+
+[tasks.track-videos]
+description = "Run the EXP-11 video tracking baseline. Pass video paths after --."
+run = "uv run --locked python experiments/exp_11_video_tracking.py \"$@\""
